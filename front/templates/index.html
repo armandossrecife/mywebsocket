@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+</head>
+<body>
+    <h1>Chat App</h1>
+    <input type="text" id="message" placeholder="Digite sua mensagem">
+    <button onclick="sendMessage()">Enviar</button>
+    <div id="chat"></div>
+    <script>
+        const socket = new WebSocket("ws://localhost:8000/ws");
+        socket.onmessage = (event) => {
+            const chatDiv = document.getElementById("chat");
+            chatDiv.innerHTML += `<p>${event.data}</p>`;
+        };
+        
+        function sendMessage(){
+            const messageInput = document.getElementById("message");
+            socket.send(messageInput.value);
+            messageInput.value = "";
+        }
+    </script>
+    
+</body>
+</html>
